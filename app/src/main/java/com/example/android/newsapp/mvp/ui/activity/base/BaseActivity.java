@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.example.android.newsapp.App;
 import com.example.android.newsapp.R;
@@ -128,18 +129,18 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     }
 
-    private void setNightOrDayMode(){
-        if(MyUtil.isNightMode()){
+    private void setNightOrDayMode() {
+        if (MyUtil.isNightMode()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             initNightView();
             mNightView.setBackgroundResource(R.color.night_mask);
-        }else {
+        } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
 
-    private void initNightView(){
-        if(mIsAddedView){
+    private void initNightView() {
+        if (mIsAddedView) {
             return;
         }
         WindowManager.LayoutParams nightViewParam = new WindowManager.LayoutParams(
@@ -152,8 +153,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         mIsAddedView = true;
     }
 
-    private void initNightModeSwitch(){
-        if(this instanceof MainActivity){
+    private void initNightModeSwitch() {
+        if (this instanceof MainActivity) {
             MenuItem menuItem = mBaseNavView.getMenu().findItem(R.id.nav_night_mode);
             SwitchCompat dayNightSwitch = (SwitchCompat) MenuItemCompat
                     .getActionView(menuItem);
@@ -162,22 +163,22 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         }
     }
 
-    private void setCheckedState(SwitchCompat switchCompat){
-        if(MyUtil.isNightMode()){
+    private void setCheckedState(SwitchCompat switchCompat) {
+        if (MyUtil.isNightMode()) {
             switchCompat.setChecked(true);
-        }else {
+        } else {
             switchCompat.setChecked(false);
         }
     }
 
-    private void setCheckedEvent(SwitchCompat switchCompat){
+    private void setCheckedEvent(SwitchCompat switchCompat) {
         switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     changeToNight();
                     MyUtil.saveTheme(true);
-                }else {
+                } else {
                     changeToDay();
                     MyUtil.saveTheme(false);
                 }
@@ -189,12 +190,12 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         });
     }
 
-    private void changeToDay(){
+    private void changeToDay() {
         getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         mNightView.setBackgroundResource(android.R.color.transparent);
     }
 
-    private void changeToNight(){
+    private void changeToNight() {
         getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         initNightView();
         mNightView.setBackgroundResource(R.color.night_mask);
@@ -202,7 +203,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     @Override
     public void onBackPressed() {
-
         if (haveNavigationView && drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
@@ -211,10 +211,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_abpout, menu);
-
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -255,14 +252,14 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.nav_top:
-
+                            Toast.makeText(BaseActivity.this, "Top Clicked ", Toast.LENGTH_SHORT).show();
                             break;
                         case R.id.nav_lastest:
-
+                            Toast.makeText(BaseActivity.this, "Latest Clicked ", Toast.LENGTH_SHORT).show();
                             break;
 
                         case R.id.nav_popular:
-
+                            Toast.makeText(BaseActivity.this, "Popular Clicked ", Toast.LENGTH_SHORT).show();
                             break;
                     }
                     drawerLayout.closeDrawer(GravityCompat.START);
@@ -277,15 +274,13 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         MyUtil.cancelSubscription(mSubscription);
-
         removeNightModeMask();
 
     }
 
-    private void removeNightModeMask(){
-        if(mIsAddedView){
+    private void removeNightModeMask() {
+        if (mIsAddedView) {
             mWindowManager.removeView(mNightView);
             mWindowManager = null;
             mNightView = null;

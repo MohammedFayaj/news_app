@@ -29,7 +29,7 @@
 
     <TextView
         style="@style/news_channel_sort_title"
-        android:text="add Channel"/>
+        android:text="added Channel"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/news_channel_mine_rv"

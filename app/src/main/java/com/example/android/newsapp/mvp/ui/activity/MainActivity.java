@@ -184,7 +184,7 @@ public class MainActivity extends BaseActivity implements NewsView {
     @Override
     public void showMessage(String message) {
 
-        Log.d("xuyang========== sun", message);
+        Log.d("Mohammed ========== Fayaj", message);
 
 
     }
@@ -212,10 +212,6 @@ public class MainActivity extends BaseActivity implements NewsView {
         viewPager.setAdapter(scrollAdapter);
         myTabs.setupWithViewPager(viewPager);
         MyUtil.dynamicSetTabLayoutMode(myTabs);
-
-
-
-
     }
 
 
